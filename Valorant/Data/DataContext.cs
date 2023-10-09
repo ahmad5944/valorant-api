@@ -14,5 +14,8 @@
                 .UseSqlServer("Server=localhost;Database=valorant;Trusted_Connection=True;TrustServerCertificate=Yes");
         }
         public DbSet<User> Users => Set<User>();
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<Weapon> Weapons { get; set; }
     }
 }

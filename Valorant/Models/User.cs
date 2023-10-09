@@ -1,4 +1,6 @@
-﻿namespace Valorant.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Valorant.Models
 {
     public class User
     {
@@ -10,7 +12,6 @@
         public DateTime? VerifiedAt { get; set; }
         public string? PasswordResetToken { get; set; }
         public DateTime? ResetTokenExpires {  get; set; }
-
 
     }
 }
