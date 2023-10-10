@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Valorant.Data;
 
@@ -11,9 +12,11 @@ using Valorant.Data;
 namespace Valorant.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231009083504_updateSkill")]
+    partial class updateSkill
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,8 +48,7 @@ namespace Valorant.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillId")
-                        .IsUnique();
+                    b.HasIndex("SkillId");
 
                     b.HasIndex("UserId");
 
@@ -136,8 +138,8 @@ namespace Valorant.Migrations
             modelBuilder.Entity("Valorant.Models.Character", b =>
                 {
                     b.HasOne("Valorant.Models.Skill", "Skill")
-                        .WithOne("Character")
-                        .HasForeignKey("Valorant.Models.Character", "SkillId")
+                        .WithMany("Character")
+                        .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -162,8 +164,7 @@ namespace Valorant.Migrations
 
             modelBuilder.Entity("Valorant.Models.Skill", b =>
                 {
-                    b.Navigation("Character")
-                        .IsRequired();
+                    b.Navigation("Character");
                 });
 #pragma warning restore 612, 618
         }

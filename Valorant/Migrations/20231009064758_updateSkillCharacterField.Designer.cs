@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Valorant.Data;
 
@@ -11,9 +12,11 @@ using Valorant.Data;
 namespace Valorant.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231009064758_updateSkillCharacterField")]
+    partial class updateSkillCharacterField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,23 +37,12 @@ namespace Valorant.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WeaponId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SkillId")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
-
-                    b.HasIndex("WeaponId");
 
                     b.ToTable("Characters");
                 });
@@ -63,6 +55,9 @@ namespace Valorant.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CharacterId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Damage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -72,6 +67,8 @@ namespace Valorant.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("Skills");
                 });
@@ -121,6 +118,9 @@ namespace Valorant.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Damage")
                         .HasColumnType("int");
 
@@ -130,39 +130,46 @@ namespace Valorant.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CharacterId")
+                        .IsUnique();
+
                     b.ToTable("Weapons");
                 });
 
             modelBuilder.Entity("Valorant.Models.Character", b =>
                 {
-                    b.HasOne("Valorant.Models.Skill", "Skill")
-                        .WithOne("Character")
-                        .HasForeignKey("Valorant.Models.Character", "SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Valorant.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Valorant.Models.Weapon", "Weapon")
-                        .WithMany()
-                        .HasForeignKey("WeaponId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Skill");
-
                     b.Navigation("User");
-
-                    b.Navigation("Weapon");
                 });
 
             modelBuilder.Entity("Valorant.Models.Skill", b =>
                 {
-                    b.Navigation("Character")
+                    b.HasOne("Valorant.Models.Character", null)
+                        .WithMany("Skill")
+                        .HasForeignKey("CharacterId");
+                });
+
+            modelBuilder.Entity("Valorant.Models.Weapon", b =>
+                {
+                    b.HasOne("Valorant.Models.Character", "Character")
+                        .WithOne("Weapon")
+                        .HasForeignKey("Valorant.Models.Weapon", "CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("Valorant.Models.Character", b =>
+                {
+                    b.Navigation("Skill");
+
+                    b.Navigation("Weapon")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -8,6 +8,6 @@ namespace Valorant.Models
         public string Name { get; set; } = string.Empty;
         public string Damage { get; set; } = string.Empty;
         [JsonIgnore]
-        public List<Character> Character { get; set; }
+        public Character Character { get; set; }
     }
 }

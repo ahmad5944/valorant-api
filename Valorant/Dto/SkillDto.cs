@@ -2,7 +2,7 @@ namespace Valorant.Dto
 {
     public class SkillDto
     {
-        public int CharacterId { get; set; }
-        public int SkillId { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Damage { get; set; }
     }
 }

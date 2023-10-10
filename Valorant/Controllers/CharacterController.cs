@@ -31,9 +31,14 @@ namespace Valorant.Controllers
             if (user is null)
                 return NotFound("user not found!");
 
+            var weapon = await _context.Weapons.FindAsync(request.WeaponId);
+            var skill = await _context.Skills.FindAsync(request.Skilld);
+
             var character = new Character{
                 Name = request.Name,
-                User = user
+                User = user,
+                Weapon = weapon,
+                Skill = skill,
             };
 
             _context.Characters.Add(character);
@@ -42,55 +47,55 @@ namespace Valorant.Controllers
             return await Get(request.UserId);
         }
 
-        [HttpPost("Skill-Master")]
-        public async Task<ActionResult<List<Skill>>> AddSkillCharacter (SkillMasterDto request){
-            var skill = new Skill{
-                Name = request.Name,
-                Damage = request.Damage
-            };
+        // [HttpPost("Skill-Master")]
+        // public async Task<ActionResult<List<Skill>>> AddSkillCharacter (SkillMasterDto request){
+        //     var skill = new Skill{
+        //         Name = request.Name,
+        //         Damage = request.Damage
+        //     };
 
-            _context.Skills.Add(skill);
-            await _context.SaveChangesAsync();
+        //     _context.Skills.Add(skill);
+        //     await _context.SaveChangesAsync();
 
-            return _context.Skills.ToList();
-        }
+        //     return _context.Skills.ToList();
+        // }
 
-        [HttpPost("Weapon")]
-        public async Task<ActionResult<Character>> AddWeapon (WeaponDto request){
-            var character = await _context.Characters.FindAsync(request.CharacterId);
-            if (character is null)
-                return NotFound("character not found!");
+        // [HttpPost("Weapon")]
+        // public async Task<ActionResult<Character>> AddWeapon (WeaponDto request){
+        //     var character = await _context.Characters.FindAsync(request.CharacterId);
+        //     if (character is null)
+        //         return NotFound("character not found!");
 
-            var weapon = new Weapon{
-                Name = request.Name,
-                Damage = request.Damage,
-                Character = character
-            };
+        //     var weapon = new Weapon{
+        //         Name = request.Name,
+        //         Damage = request.Damage,
+        //         Character = character
+        //     };
 
-            _context.Weapons.Add(weapon);
-            await _context.SaveChangesAsync();
+        //     _context.Weapons.Add(weapon);
+        //     await _context.SaveChangesAsync();
 
-            return character;           
-        }
+        //     return character;           
+        // }
 
-        [HttpPost("Skill")]
-        public async Task<ActionResult<Character>> AddSkill (SkillDto request){
-            var character = await _context.Characters
-                .Where(c => c.Id == request.CharacterId)
-                .Include(c => c.Skill)
-                .FirstOrDefaultAsync();
+        // [HttpPost("Skill")]
+        // public async Task<ActionResult<Character>> AddSkill (SkillDto request){
+        //     var character = await _context.Characters
+        //         .Where(c => c.Id == request.CharacterId)
+        //         .Include(c => c.Skill)
+        //         .FirstOrDefaultAsync();
 
-            if (character is null)
-                return NotFound("character not found!");
+        //     if (character is null)
+        //         return NotFound("character not found!");
 
-            var skill = await _context.Skills.FindAsync(request.SkillId);
-            if(skill is null)
-                return NotFound("skill not found!");
+        //     var skill = await _context.Skills.FindAsync(request.SkillId);
+        //     if(skill is null)
+        //         return NotFound("skill not found!");
 
-            character.Skill.Add(skill);
-            await _context.SaveChangesAsync();
+        //     character.Skill.Add(skill);
+        //     await _context.SaveChangesAsync();
 
-            return character;           
-        }
+        //     return character;           
+        // }
     }
 }
