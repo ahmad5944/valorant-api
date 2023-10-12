@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Valorant.Data;
 using Valorant.Dto;
+using Valorant.Cache;
 
 namespace Valorant.Controllers
 {
@@ -10,9 +12,12 @@ namespace Valorant.Controllers
 
     public class CharacterController : ControllerBase{
         private readonly DataContext _context;
+        // private readonly ICacheService _cacheService;
         public CharacterController(DataContext context) 
+        // public CharacterController(DataContext context, ICacheService cacheService) 
         { 
             _context = context;
+            // _cacheService = cacheService;
         }
         [HttpGet]
         public async Task<ActionResult<List<Character>>> Get (int userId){
@@ -21,7 +26,6 @@ namespace Valorant.Controllers
                 .Include(c => c.Weapon)
                 .Include(c => c.Skill)
                 .ToListAsync();
-
             return characters;
         }
 

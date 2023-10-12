@@ -13,7 +13,7 @@ namespace Valorant.Models
         public Weapon Weapon { get; set; }
         // public int WeaponId { get; set; }
         // public List<Skill> Skill { get; set; }
-        public Skill Skill { get; set; }
+        public Skill Skill { get; set; } = null!;
         public int SkillId { get; set; }
 
     }
