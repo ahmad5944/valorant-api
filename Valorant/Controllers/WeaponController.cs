@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Valorant.Models;
 using Valorant.Data;
 using Valorant.Dto;
 

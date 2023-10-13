@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Valorant.Data;
 using Valorant.Dto;
-using Valorant.Cache;
+using Microsoft.EntityFrameworkCore;
+using Valorant.Models;
+// using Valorant.Cache;
 
 namespace Valorant.Controllers
 {

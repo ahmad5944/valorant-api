@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
+using Valorant.Models;
 using Valorant.Data;
 
 namespace Valorant.Services
